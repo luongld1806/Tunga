@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model UserInfo
+@inject UserManager<UserInfo> userManager
+
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Basic form elements</h4>
+            <p class="card-description"> Basic form elements </p>
+            <form class="forms-sample" method="post" asp-controller="Account" asp-action="Edit">
+                <input asp-for="Id" hidden />
+                <div class="form-group">
+                    <label for="DisplayName">Name</label>
+                    <input value="@Model.DisplayName" type="text" class="form-control" id="DisplayName" name="DisplayName" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email address</label>
+                    <input value="@Model.Email" type="email" class="form-control" id="Email" name="Email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input type="text" class="form-control" name="Password" id="Password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelectGender">Gender</label>
+                    <select value="@Model.Sex" class="form-control" name="Sex" id="exampleSelectGender">
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        <option value="3">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Phone">Phone number</label>
+                    <input value="@Model.PhoneNumber" type="text" class="form-control" id="Phone" name="PhoneNumber" placeholder="Phone number">
+                </div>
+                <div class="form-group">
+                    <label for="Address">Address</label>
+                    <input value="@Model.Address" type="text" class="form-control" id="Address" name="Address" placeholder="Location">
+                </div>
+                <div class="form-group">
+                    <label for="setRole">Select Role</label>
+                    @{
+                        SelectList roleList = new SelectList(ViewBag.Roles, "Name", "Name", @userManager.GetRolesAsync(Model).Result.FirstOrDefault());
+                    }
+                    <select asp-items="@roleList"  class="form-control" id="setRole" name="RoleName">
+                       
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="setBrach">Select Branch</label>
+                    @{
+                        SelectList branchList = new SelectList(ViewBag.Branches, "Id", "Name",Model.BranchId);
+                    }
+                    <select asp-items="@branchList" class="form-control" id="setBrach" name="BranchId">
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="setStatus">Status</label>
+                    <select asp-items="@Html.GetEnumSelectList<UserStatus>()" class="form-control" id="setStatus" asp-for="Status" ></select>
+                </div>
+                <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                <a asp-controller="Account" asp-action="Index" class="btn btn-light">Cancel</a>
+            </form>
+        </div>
+    </div>
+</div>

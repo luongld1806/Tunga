@@ -1,0 +1,73 @@
+﻿@{
+    UserInfo userInfo = ViewBag.UserInfo;
+    bool isAdmin = await _userManager.IsInRoleAsync(userInfo,"Admin");
+}
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+    <ul class="nav">
+        <li class="nav-item nav-profile">
+            <a asp-area="" asp-controller="Profile" asp-action="Index" class="nav-link">
+                <div class="nav-profile-image">
+                    @if(@userInfo.Avatar == null){
+                        <img src="" alt="">
+                    }else{
+                        <img src="/images/@userInfo.Avatar" alt="">
+
+                    }
+                    <span class="login-status online"></span>
+                    <!--change to offline or busy as needed-->
+                </div>
+                <div class="nav-profile-text d-flex flex-column">
+                    <span class="font-weight-bold mb-2">@userInfo.DisplayName</span>
+                    <span class="text-secondary text-small">@_userManager.GetRolesAsync(userInfo).Result.FirstOrDefault()</span>
+                </div>
+            </a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                <span class="menu-title">Customer Page</span>
+                <i class="mdi mdi-home menu-icon"></i>
+            </a>
+        </li>
+        @if(isAdmin){
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Account" asp-action="Index">
+                <span class="menu-title">Account</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+            </a>
+        </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Branch" asp-action="Index">
+                <span class="menu-title">Branch</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Reservations" asp-action="Index">
+                <span class="menu-title">Reservations</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Food" asp-action="Index">
+                <span class="menu-title">Food</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+            </a>
+        </li>
+        @if(isAdmin){
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Category" asp-action="Index">
+                <span class="menu-title">Category</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+            </a>
+        </li>
+        }
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="Order" asp-action="Index">
+                <span class="menu-title">Order</span>
+                <i class="mdi mdi-contacts menu-icon"></i>
+            </a>
+        </li>
+    </ul>
+</nav>

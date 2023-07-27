@@ -1,0 +1,95 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TungaRestaurant.Ultils
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["ProfileNav"] = "active";
+    TokenManager tokenManager = new TokenManager();
+    UserInfo userInfo = ViewBag.LoginUser;
+}
+@inject UserManager<UserInfo> _userManager
+<section class="home-slider owl-carousel">
+
+    <div class="slider-item" style="background-image: url(/customer_asset/images/bg_3.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+                <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                    <h1 class="mb-3 mt-5 bread">Cart</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a asp-controller="Home" asp-action="Index">Home</a></span> <span>Order History</span></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th width="20%">Order Token</th>
+                                <th>Order Date</th>
+                                <th>Price</th>
+                                <th>Items</th>
+                                <th>Status</th>
+                                <th>Delever in</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (Order order in userInfo.Orders)
+                            {
+                                <tr class="text-center">
+                                    <td class="" style="overflow-wrap:anywhere">
+                                        <span>
+                                            @tokenManager.GetOrderToken(userInfo,order.Id.ToString())
+                                        </span>
+                                    </td>
+                                    <td class="">
+                                        <span>
+                                            @order.CreatedAt
+                                        </span>
+                                    </td>
+                                    <td class=""><span>$@order.Price</span> </td>
+
+                                    <td class="">
+                                        @{
+                                            int arriveTime = 30;
+                                            foreach (OrderDetail orderDetail in order.OrderDetail)
+                                            {
+                                                arriveTime = orderDetail.Food.CookDuration * orderDetail.Quantity;
+                                                <div>
+                                                    <span>@orderDetail.Food.Name</span>:
+                                                    <span>@orderDetail.Quantity</span>
+                                                </div>
+                                            }
+                                        }
+                                        
+                                    </td>
+
+                                    <td class="" id="totalOfItemPrice">
+                                        <span>
+                                            @order.Status
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <span>@arriveTime </span>Minutes
+                                    </td>
+                                    
+                                </tr>
+
+                                <!-- END TR-->
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</section>

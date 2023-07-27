@@ -1,0 +1,38 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["navBarMode"] = "navbar-normal";
+}
+
+<div class="container" style="min-height:100vh">
+    <div class="row pt-5 " style="justify-content: center;">
+        <div class="custom-form-style col-6 p-5">
+            <form class="">
+                <div class="form-group">
+                    @{
+                        SelectList branchesList = new SelectList(ViewBag.Branches, "Id", "Name");
+                    }
+                    <label for="select-branch">Select your prefer branch</label>
+                    <select class="custom-select form-control" id="select-branch" asp-items="branchesList" name="branch"></select>
+                </div>
+                <div class="form-group">
+                    <label for="checkvegan">Are you a vegan?</label>
+                    <select class="custom-select form-control" name="isVegan" id="checkvegan">
+                        <option value="false">No</option>
+                        <option value="true">Yes</option>
+                    </select>
+                </div>
+                <button class="btn auth-form-btn">
+                    Confirm
+                </button>
+
+                @if(User.Identity.Name == null){
+                    <p><a class="text-primary" asp-area="Identity" asp-page="/Account/Login">Login</a> to save your preference </p>
+
+                }
+            </form>
+        </div>
+
+    </div>
+</div>

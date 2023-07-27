@@ -1,0 +1,73 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<!-- Mirrored from www.bootstrapdash.com/demo/purple-admin-free/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Dec 2022 02:10:14 GMT -->
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Tunga Restaurant Admin</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="~/admin_asset/assets/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="~/admin_asset/assets/vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="~/admin_asset/assets/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="~/admin_asset/assets/images/favicon.ico" />
+</head>
+<body>
+    <div class="container-scroller">
+        
+        <!-- partial:partials/_navbar.html -->
+        <partial name="_navbar.cshtml" />
+        
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            <!-- partial:partials/_sidebar.html -->
+            <partial name="_sidebar.cshtml" />
+            
+            <!-- partial -->
+            <div class="main-panel">
+                <div class="content-wrapper">
+                    @RenderBody()
+                </div>
+                <!-- content-wrapper ends -->
+                <!-- partial:partials/_footer.html -->
+                <footer class="footer">
+                    <div class="container-fluid clearfix">
+                        <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright TungaRestaurant</span>
+                        <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"></span>
+                    </div>
+                </footer>
+                <!-- partial -->
+            </div>
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="~/admin_asset/assets/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- inject:js -->
+    <script src="~/admin_asset/assets/js/off-canvas.js"></script>
+    <script src="~/admin_asset/assets/js/hoverable-collapse.js"></script>
+    <script src="~/admin_asset/assets/js/misc.js"></script>
+    <!-- endinject -->
+    <!-- End custom js for this page -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js"></script>
+    <script src="~/admin_asset/assets/js/LUONG.js"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+<!-- Mirrored from www.bootstrapdash.com/demo/purple-admin-free/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 29 Dec 2022 02:10:24 GMT -->
+</html>

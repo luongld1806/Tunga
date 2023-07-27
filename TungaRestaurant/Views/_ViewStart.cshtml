@@ -1,0 +1,10 @@
+﻿@{
+    UserInfo userInfo = null;
+    if (User.Identity.Name != null)
+    {
+        string uid = _userManager.GetUserId(User);
+        userInfo = _userManager.Users.Include(u => u.Carts).Where(u => u.Id.Equals(uid)).FirstOrDefault();
+    }
+    ViewBag.UserInfo = userInfo;
+    Layout = "_Layout";
+}

@@ -1,0 +1,102 @@
+﻿@using TungaRestaurant.Ultils
+@model IEnumerable<TungaRestaurant.Models.Reservation>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Token)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.NumberOfGuest)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.CreatedAt)
+                        </th>
+                        <th>
+                            Reservation Time
+                        </th>
+          
+                        <th>
+                            @Html.DisplayNameFor(model => model.UserId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(model => model.Table)
+                        </th>
+
+                        <th>
+                            Branch
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        TokenManager tokenManager = new TokenManager();
+                    }
+                    @foreach (var item in Model)
+                    {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Token)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NumberOfGuest)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedAt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ReservationAt) to <br />
+                            @Html.DisplayFor(modelItem => item.ReservationEnd)
+                        </td>
+  
+                        <td>
+                            @Html.DisplayFor(modelItem => item.User.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Table.Name)-@Html.DisplayFor(modelItem => item.Table.Room.Name)-@Html.DisplayFor(modelItem => item.Table.Room.Branch.Name)
+                        </td>
+
+                        <td>
+                            (@Html.DisplayFor(modelItem => item.Table.Room.Branch.Name))
+                        </td>
+                        <td>
+
+                            <a data-toggle="modal" class="btn-danger" type="button" data-target="#exampleModal_@item.Id">Delete</a>
+                            <div class="modal fade" id="exampleModal_@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" style="color:black" id="exampleModalLabel">Sure?</h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <form asp-action="Delete">
+                                                <input type="hidden" name="id" value="@item.Id" />
+                                                <input type="submit" value="Delete" class="btn btn-danger" />
+                                            </form>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

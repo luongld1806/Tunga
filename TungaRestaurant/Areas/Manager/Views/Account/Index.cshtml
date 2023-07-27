@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model IEnumerable<UserInfo>
+@inject RoleManager<IdentityRole> roleManager
+@inject UserManager<UserInfo> userManager
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">User account</h4>
+            <p class="">
+                <a class="btn btn-primary" asp-controller="Account" asp-action="Create">Add Account</a>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th> User </th>
+                        <th> Name </th>
+                        <th> Email </th>
+                        <th> Phone </th>
+                        <th> Address </th>
+                        <th> Gender </th>
+                        <th> Role </th>
+                        <th> Status </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var user in Model){
+                        <tr class="redirect-on-click" href="manager/account/edit/@user.Id">
+                            <td class="py-1">
+                                <img src="~/images/@user.Avatar" alt="image">
+                            </td>
+                            <td> @user.DisplayName </td>
+                            <td> @user.Email </td>
+                            <td> @user.PhoneNumber</td>
+                            <td> @user.Address </td>
+                            <td> @user.Sex </td>
+                            <td>
+                                @userManager.GetRolesAsync(user).Result.FirstOrDefault() 
+                            </td>
+                            <td> @user.Status </td>
+                        </tr>
+                    }
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,64 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["navBarMode"] = "navbar-normal";
+	ViewData["MenuNav"] = "active";
+}
+<div class="container mt-5" style="min-height:100vh">
+	<div>
+		<form >
+			<div>
+				<div class="row">
+					<div class="col-6 form-group">
+						@{
+							SelectList branchList = new SelectList(ViewBag.Branches,"Id","Name",ViewBag.BranchId);
+						}
+						<label>Select Branch</label>
+						<select class="custom-select" asp-items="branchList" name="branch"></select>
+					</div>
+					<div class="col-6 form-group">
+						<label for="checkvegan">Are you a vegan?</label>
+						@{
+							var what = new Dictionary<bool, string>();
+							var selectedValue = ViewBag.IsVegan;
+							what.Add(false, "No");
+							what.Add(true, "Yes");
+							SelectList veganValue = new SelectList(what, "Key", "Value", ViewBag.IsVegan?true:false);
+
+						}
+						<select class="custom-select form-control" name="isVegan" asp-items="veganValue" id="checkvegan"></select>
+					</div>
+
+				</div>
+			</div>
+			<div class="p-relative mb-5" style="">
+				<div class="form-group m-0">
+					<input class="form-control" name="search" autocomplete="off" placeholder="Search for a dish" />
+				</div>
+				<button class="btn .auth-form-btn search-button-over-input" type="submit">Search</button>
+			</div>
+		</form>
+	</div>
+		@foreach(Category category in ViewBag.Categories)
+	   {
+			<h3 class="mb-5 heading-pricing ftco-animate fadeInUp ftco-animated ">@category.Name</h3>
+			<div class="row">
+					@if (category.Foods == null) continue;
+					@foreach (Food food in category.Foods)
+					{
+					<div class="col-md-4 mb-5 pb-3">
+						<div class="menu-wrap text-center col">
+							<a asp-controller="Home" asp-action="Food" asp-route-id="@food.Id" class="menu-img img mb-4" style="background-image: url(/images/@food.Image);"></a>
+							<div class="text">
+								<h3><a asp-controller="Home" asp-action="Food" asp-route-id="@food.Id">@food.Name</a></h3>
+								<p>Serve unit: @food.ServeUnit</p>
+								<p class="price"><span>$@food.Price</span></p>
+								<p><a asp-controller="Home" asp-action="Food" asp-route-id="@food.Id" class="btn btn-primary btn-outline-primary">Detail</a></p>
+							</div>
+						</div>
+					</div>
+					}
+			</div>
+	   }
+</div>

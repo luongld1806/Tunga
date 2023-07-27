@@ -1,0 +1,119 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    UserInfo userInfo = ViewBag.UserInfo;
+}
+@model IEnumerable<Cart>
+<section class="home-slider owl-carousel">
+
+    <div class="slider-item" style="background-image: url(/customer_asset/images/bg_3.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+                <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                    <h1 class="mb-3 mt-5 bread">Cart</h1>
+                    <p class="breadcrumbs"><span class="mr-2"><a asp-controller="Home" asp-action="Index">Home</a></span> <span>Cart</span></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-section ftco-cart">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 ftco-animate">
+                <div class="cart-list">
+                    <table class="table">
+                        <thead class="thead-primary">
+                            <tr class="text-center">
+                                <th>&nbsp;</th>
+                                <th>Dish</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{float subtotal = 0; float delivery = 0;}
+                            @foreach (Cart c in Model)
+                            {
+                                delivery += c.Food.CookDuration * c.Quantity;
+                                subtotal += c.Food.Price * c.Quantity;
+                            <tr class="text-center">
+                                <td class="image-prod"><div class="img" style="background-image:url(images/@c.Food.Image);"></div></td>
+
+                                <td class="product-name">
+                                    <h3>@c.Food.Name</h3>
+                                    <p>Far far away, behind the word mountains, far from the countries</p>
+                                </td>
+
+                                <td class="price">$@c.Food.Price</td>
+
+                                <td class="quantity">
+                                    <div class="input-group">                       
+                                        <form class="text-center" asp-controller="Cart" asp-action="Edit" method="post">
+                                            <input hidden value="@c.Id" name="id" />
+                                            <input hidden value="@c.FoodId" name="FoodId" />
+                                            <input hidden value="@c.UserInfoId" name="UserInfoId" />               
+                                            <div class="row">
+                                                <input type="text" name="quantity" class="quantity form-control input-number col-sm-6" value="@c.Quantity" min="1" max="100">
+                                                <input type="submit" class="btn btn-primary py-3 px-4 col-sm-6" value="Update Cart" />
+                                            </div>
+                                        </form>
+                                    </div>
+                                </td>
+
+                                    <td class="total" id="totalOfItemPrice">$@(c.Food.Price * c.Quantity)</td>
+                                    <td class="product-remove">
+                                        <form asp-action="Delete" method="post">
+                                            <input hidden value="@c.Id" name="id" />
+                                            <button class="btn text-center auth-form-btn" style="width:50px;aspect-ratio:1/1;"><span class="icon-close"></span></button>
+                                        </form>
+                                    </td>                                    
+                                </tr><!-- END TR-->
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <form asp-controller="Order" asp-action="Create" method="post">
+            <div class="row justify-content-start">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="streetaddress">Delivery Address</label>
+                        <input value="@userInfo.Address" type="text" name="ShipAddress" class="form-control" placeholder="House number and street name">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-end">
+                <div class="col col-lg-3 col-md-6 mt-5 cart-wrap ftco-animate">
+                    @{float total = subtotal ;}
+                    <div class="cart-total mb-3">
+                        <h3>Cart Totals</h3>
+                        <p class="d-flex">
+                            <span>Subtotal</span>
+                            <span>$@subtotal</span>
+                        </p>
+                        <p class="d-flex">
+                            <span>Delivery in</span>
+                            <span>@delivery minutes</span>
+                        </p>
+                        <hr>
+                        <p class="d-flex total-price">
+                            <span>Total</span>
+                            <span>$@total</span>
+                        </p>
+                    </div>
+                    <input type="submit" class="btn btn-primary py-3 px-4" value="Check Out" />
+
+                </div>
+            </div>
+        </form>
+    </div>
+</section>

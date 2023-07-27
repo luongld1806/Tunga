@@ -1,0 +1,109 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model TungaRestaurant.Controllers.TableBookInfor
+@inject UserManager<UserInfo> _userManager
+@{
+    ViewData["HomeNav"] = "active";
+    ViewData["navBarMode"] = "navbar-normal";
+    ViewData["Title"] = "Table";
+    List<Food> food=(List<Food>)ViewBag.Food;
+    UserInfo userInfo = await _userManager.FindByNameAsync(User.Identity.Name);
+}
+<section class="mt-auto ftco-appointment " >
+    
+    <div class="container-wrap">
+        <div class="row no-gutters d-md-flex align-items-center">
+           
+            <div class="col-md-12 appointment ftco-animate" style="background-color:#c49b63">
+                <h3 class="mb-3">Book a Table</h3>
+                <h3>@ViewBag.Message</h3>
+                <form asp-controller="Table" asp-action="BookATable" method="post" class="appointment-form" >
+                    <div class="d-md-flex">
+                        <div class="form-group">
+                            <input type="text" asp-for="Name" class="form-control" value="@userInfo.DisplayName" placeholder="Your Name">
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            <input type="text" asp-for="phone" value="@userInfo.PhoneNumber" class="form-control" placeholder="Phone">
+                            <span asp-validation-for="phone" class="text-danger"></span>
+                        </div>
+
+                    </div>
+                    <div class="d-md-flex">
+                        <div class="form-group">
+                            <div class="input-wrap">
+                                <div class="icon"><span class="ion-md-calendar"></span></div>
+                                <input type="text" asp-for="date" class="form-control appointment_date hasDatepicker" placeholder="Date">
+                                <span asp-validation-for="date" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            <div class="input-wrap">
+                                <div class="icon"><span class="ion-ios-clock"></span></div>
+                                <input type="text" asp-for="time" class="form-control appointment_time" placeholder="Time">
+                                <span asp-validation-for="time" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            <div class="icon"><span class="ion-ios-clock"></span></div>
+                            <input type="text" asp-for="time_to" class="form-control appointment_time" placeholder="Time To">
+                            <span asp-validation-for="time_to" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-md-flex">
+                       
+                        <div class="form-group ">
+                            <input type="number" asp-for="numberOfGuest" class="form-control" placeholder="Number Of Guest">
+                            <span asp-validation-for="numberOfGuest" class="text-danger"></span>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            <textarea asp-for="message" id="" cols="30" rows="2" class="form-control" placeholder="Message"></textarea>
+                            <span asp-validation-for="message" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-md-flex">
+                        
+                        <div class="form-group ml-md-4">
+                            @if (User.Identity.Name == null)
+                            {
+
+
+                                <a type="submit" asp-area="Identity" asp-page="/Account/Login" class="btn btn-white py-3 px-4">Login to reserve a table</a>
+                            }
+                            else
+                            {
+                                <input type="submit" value="Appointment" class="btn btn-white py-3 px-4">
+                            }
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section ftco-animate text-center fadeInUp ftco-animated">
+                <h2 class="mb-4">Best Coffee Sellers</h2>
+            </div>
+        </div>
+        <div class="row">
+            @foreach (var item in food)
+            {
+                <div class="col-md-3">
+                    <div class="menu-entry">
+                        <a href="#" class="img" style="background-image: url(/images/@item.Image);"></a>
+                        <div class="text text-center pt-4">
+                            <h3><a href="#">@item.Name</a></h3>
+                           
+                            <p class="price"><span>$@item.Price</span></p>
+                            <p><a href="#" class="btn btn-primary btn-outline-primary">Add to Cart</a></p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>

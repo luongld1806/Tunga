@@ -1,0 +1,119 @@
+﻿@model IEnumerable<TungaRestaurant.Models.Room>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Rooms list</h4>
+            
+            <form asp-action="Index" asp-area="Manager" asp-controller="Rooms" method="get">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label">Branch:</label>
+                            <div class="col-sm-9">
+                                <select class="form-control" name="branch" onchange="this.form.submit()">
+                                    @foreach (var item in ViewBag.BranchList)
+                                    {
+                                        @if (ViewBag.Branch == item.Id)
+                                        {
+                                            <option value="@item.Id" selected>@item.Name</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="@item.Id">@item.Name</option>
+                                        }
+
+
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group row">
+                            <label class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9">
+                                <p class="text-right">
+                                    <a class="btn btn-gradient-primary" asp-area="Manager" asp-controller="Rooms" asp-action="Create">Add new room</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </form>
+            <div class="row">
+                @foreach (var item in Model)
+                {
+                    <div class="col-md-3 stretch-card grid-margin ">
+
+
+                        <div class="card bg-gradient-secondary card-img-holder text-white">
+
+                            <div class="card-body hihi">
+
+                                <img src="~/admin_asset/assets/images/dashboard/circle.svg" class="card-img-absolute" alt="circle-image">
+
+                                <h4 class="font-weight-normal mb-3">
+                                </h4>
+                                <h2 class="mb-5">@item.Name</h2>
+                                <div class="row">
+                                    <a class="btn-success hi col-md-6" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+
+                                    <a class="btn-danger hi col-md-6" type="button" data-toggle="modal" data-target="#exampleModal_@item.Id">Delete</a>
+                                    <a class="btn-info hi col-md-12" asp-action="Index" asp-area="Manager" asp-controller="Tables" asp-route-room="@item.Id" asp-route-branch="@Context.Request.Query["branch"]">Show all tables</a>
+
+                                </div>
+                                <div class="modal fade" id="exampleModal_@item.Id" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" style="color:black" id="exampleModalLabel">Sure?</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <form asp-action="Delete">
+                                                    <input type="hidden" name="id" value="@item.Id" />
+                                                    <input type="submit" value="Delete" class="btn btn-danger" />
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .hi {
+        display: inline-block;
+        transition: 0.75s;
+        opacity: 0;
+        top: 0;
+        right: 1px;
+    }
+
+    .hihi:hover .hi {
+        opacity: 1;
+        display: inline-block;
+    }
+</style>

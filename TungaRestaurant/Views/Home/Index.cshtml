@@ -1,0 +1,346 @@
+﻿@model TungaRestaurant.Controllers.TableBookInfor
+
+@{
+    ViewData["Title"] = "Home Page";
+    ViewData["HomeNav"] = "active";
+    List<Table> ListTable = (List<Table>)ViewBag.ListTable;
+    List<Room> ListRoom = (List<Room>)ViewBag.ListRoom;
+    List<Branch> ListBranch = (List<Branch>)ViewBag.ListBranch;
+    UserInfo userInfo = new UserInfo();
+    if (User.Identity.Name != null)
+    {
+        string uid = _userManager.GetUserId(User);
+        userInfo = _userManager.Users.Include(u => u.Carts).Where(u => u.Id.Equals(uid)).FirstOrDefault();
+    }
+}
+<style>
+    .form-control option {
+        color: black;
+    }
+</style>
+<section class="home-slider owl-carousel">
+    <div class="slider-item" style="background-image: url(/customer_asset/images/bg_1.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+                <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                    @if (@ViewBag.Notice != null)
+                    {
+                        <span class="subheading">Sorry</span>
+                        <h1 class="mb-4">@ViewBag.Notice</h1>
+                        <p class="mb-4 mb-md-5">@ViewBag.Description</p>
+                        <p><a href="#" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+                    }
+                    else
+                    {
+                        <span class="subheading">Welcome!</span>
+                        <h1 class="mb-4">The Best Dinner Experience</h1>
+                        <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                        <p><a asp-action="Menu" asp-controller="Home" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+                    }
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="slider-item" style="background-image: url(/customer_asset/images/bg_2.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+                <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                    <span class="subheading">Welcome</span>
+                    <h1 class="mb-4">Amazing Taste &amp; Beautiful Place</h1>
+                    <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                    <p><a asp-action="Menu" asp-controller="Home" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="slider-item" style="background-image: url(/customer_asset/images/bg_3.jpg);">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row slider-text justify-content-center align-items-center" data-scrollax-parent="true">
+
+                <div class="col-md-8 col-sm-12 text-center ftco-animate">
+                    <span class="subheading">Welcome</span>
+                    <h1 class="mb-4">Creamy Hot and Ready to Serve</h1>
+                    <p class="mb-4 mb-md-5">A small river named Duden flows by their place and supplies it with the necessary regelialia.</p>
+                    <p><a asp-action="Menu" asp-controller="Home" class="btn btn-white btn-outline-white p-3 px-xl-4 py-xl-3">View Menu</a></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ftco-intro">
+    <div class="container-wrap">
+        <div class="wrap d-md-flex align-items-xl-end">
+            <div class="info">
+                <div class="row no-gutters">
+                    <div class="col-md-4 d-flex ftco-animate">
+                    </div>
+                    <div class="col-md-4 d-flex ftco-animate">
+                    </div>
+                    <div class="col-md-4 d-flex ftco-animate">
+                    </div>
+                </div>
+            </div>
+            <div class="book p-4">
+                <h3>Book a Table</h3>
+                <h3>@ViewBag.Message</h3>
+
+                <form asp-controller="Table" asp-action="BookATable" method="post" class="appointment-form">
+                    <div class="d-md-flex">
+                        <div class="form-group">
+                            <select class="form-control" id="listBranch">
+
+                                @foreach (var branch in ListBranch)
+                                {
+                                    <option value="@branch.Id">@branch.Name - @branch.Location</option>
+                                }
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="listRoom">
+                                <option>Choose Room</option>
+                            </select>
+                            <span class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" asp-for="TableId" id="listTable">
+                                <option>Choose Table</option>
+                            </select>
+                            <span asp-validation-for="TableId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-md-flex">
+                        <div class="form-group">
+                            @if (User.Identity.Name != null)
+                            {
+
+                                <input type="text" asp-for="Name" class="form-control" placeholder="First Name" value="@userInfo.DisplayName">
+                            }
+                            else
+                            {
+                                <input type="text" asp-for="Name" class="form-control" placeholder="First Name">
+                            }
+
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-md-flex">
+                        <div class="form-group">
+                            <div class="input-wrap">
+                                <div class="icon"><span class="ion-md-calendar"></span></div>
+                                <input type="text" id="f_date" asp-for="date" class="form-control appointment_date" placeholder="Date">
+                                <span asp-validation-for="date" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            <div class="input-wrap">
+                                <div class="icon"><span class="ion-ios-clock"></span></div>
+                                <input type="text" id="f_time" asp-for="time" class="form-control" placeholder="Time">
+                                <span asp-validation-for="time" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            <div class="icon"><span class="ion-ios-clock"></span></div>
+                            <input type="text" id="f_time_to" asp-for="time_to" class="form-control" placeholder="Time To">
+                            <span asp-validation-for="time_to" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-md-flex">
+
+                        <div class="form-group">
+                            <input type="number" id="f_numberOfGuest" asp-for="numberOfGuest" class="form-control" placeholder="Number Of Guest">
+                            <span asp-validation-for="numberOfGuest" class="text-danger"></span>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            @if (User.Identity.Name != null)
+                            {
+                                <input type="text" asp-for="phone" class="form-control" placeholder="Phone" value="@userInfo.PhoneNumber">
+                            }
+                            else
+                            {
+                                <input type="text" asp-for="phone" class="form-control" placeholder="Phone">
+                            }
+
+                            <span asp-validation-for="phone" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="d-md-flex">
+                        <div class="form-group">
+                            <textarea asp-for="message" id="" cols="30" rows="2" class="form-control" placeholder="Message"></textarea>
+                            <span asp-validation-for="message" class="text-danger"></span>
+                        </div>
+                        <div class="form-group ml-md-4">
+                            @if (User.Identity.Name == null)
+                            {
+
+
+                                <a type="submit" asp-area="Identity" asp-page="/Account/Login" class="btn btn-white py-3 px-4">Login to reserve a table</a>
+                            }
+                            else
+                            {
+                                <input type="submit" value="Appointment" class="btn btn-white py-3 px-4">
+                            }
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section ftco-services">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 ftco-animate">
+                <div class="media d-block text-center block-6 services">
+                    <div class="icon d-flex justify-content-center align-items-center mb-5">
+                        <span class="flaticon-choices"></span>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="heading">Easy to Order</h3>
+                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 ftco-animate">
+                <div class="media d-block text-center block-6 services">
+                    <div class="icon d-flex justify-content-center align-items-center mb-5">
+                        <span class="flaticon-delivery-truck"></span>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="heading">Fastest Delivery</h3>
+                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 ftco-animate">
+                <div class="media d-block text-center block-6 services">
+                    <div class="icon d-flex justify-content-center align-items-center mb-5">
+                        <span class="flaticon-coffee-bean"></span>
+                    </div>
+                    <div class="media-body">
+                        <h3 class="heading">Quality Food</h3>
+                        <p>Even the all-powerful Pointing has no control about the blind texts it is an almost unorthographic.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6 pr-md-5">
+                <div class="heading-section text-md-right ftco-animate">
+                    <span class="subheading">Discover</span>
+                    <h2 class="mb-4">Our Menu</h2>
+                    <p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language ocean.</p>
+                    <p><a asp-action="Menu" asp-controller="Home" class="btn btn-primary btn-outline-primary px-4 py-3">View Full Menu</a></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="menu-entry">
+                            <a href="#" class="img" style="background-image: url(/customer_asset/images/menu-1.jpg);"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="menu-entry mt-lg-4">
+                            <a href="#" class="img" style="background-image: url(/customer_asset/images/menu-2.jpg);"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="menu-entry">
+                            <a href="#" class="img" style="background-image: url(/customer_asset/images/menu-3.jpg);"></a>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="menu-entry mt-lg-4">
+                            <a href="#" class="img" style="background-image: url(/customer_asset/images/menu-4.jpg);"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="ftco-menu">
+    <div class="container">
+        <div class="row justify-content-center mb-5">
+            <div class="col-md-7 heading-section text-center ftco-animate">
+                <span class="subheading"></span>
+                <h2 class="mb-4">Our Products</h2>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            </div>
+        </div>
+        <div class="row d-md-flex">
+            <div class="col-lg-12 ftco-animate p-md-5">
+                <div class="row">
+                    <div class="col-md-12 nav-link-wrap mb-5">
+                        <div class="nav ftco-animate nav-pills justify-content-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                            @{
+                                string active = "active";
+                            }
+                            @foreach (Category c in ViewBag.MainCategorys)
+                            {
+                                <a class="nav-link @active" id="v-pills-@c.Id-tab" data-toggle="pill" href="#v-pills-@c.Id" role="tab" aria-controls="v-pills-@c.Id" aria-selected="true">@c.Name</a>
+                                active = "";
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 d-flex align-items-center">
+                        <div class="tab-content ftco-animate w-100" id="v-pills-tabContent">
+                            @{
+                                active = "active show";
+                            }
+                            @foreach (Category c in ViewBag.MainCategorys)
+                            {
+                                <div class="tab-pane fade @active" id="v-pills-@c.Id" role="tabpanel" aria-labelledby="v-pills-@c.Id-tab">
+                                    <div class="row">
+                                        @foreach (Food food in c.Foods)
+                                        {
+                                            <div class="col-md-4 text-center">
+                                                <div class="menu-wrap">
+                                                    <a href="#" class="menu-img img mb-4" style="background-image: url(/images/@food.Image);"></a>
+                                                    <div class="text">
+                                                        <h3><a asp-action="Food" asp-route-id="@food.Id">@food.Name</a></h3>
+                                                        <p>Serve unit : @food.ServeUnit</p>
+                                                        <p class="price"><span>$@food.Price</span></p>
+                                                        <p><a asp-action="Food" asp-route-id="@food.Id" class="btn btn-primary btn-outline-primary">Detail</a></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+
+                                    </div>
+                                </div>
+                                active = "";
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }

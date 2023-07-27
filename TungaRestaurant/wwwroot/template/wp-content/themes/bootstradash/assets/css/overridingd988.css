@@ -1,0 +1,46 @@
+/**********css for affiliate register form 
+1. add class name  "affwp-text-p" for text field 'p'
+2. add class name "affwp-textarea-p" for textarea field 'p'
+3. add <div class="container border mb-5 mt-4"></div> between register and login page
+***************/
+ .affwp-form {
+    width: 100%;
+}
+.affwp-form legend {
+	font-size: 20px;
+	font-weight: 500;
+	text-align: center;
+	font-size:25px;
+}
+.affwp-form p label,.affwp-form p a {
+	font-size: 14px;
+	font-weight: normal;
+	font-style: normal;
+	font-stretch: normal;
+	line-height: normal;
+	letter-spacing: normal;
+	color: #2f2f2f;
+}
+ .affwp-form input.button {
+    border-radius: 4px;
+    background-color: #2459bc;
+    padding: 15px 40px;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+}
+.affwp-form p.affwp-text-p{
+	margin-bottom: 25px;
+}
+.affwp-form label.affwp-tos {
+    width: 100%!important;
+}
+.affwp-form input[type=text], .affwp-form input[type=password], .affwp-form input[type=email], .affwp-form input[type=url], .affwp-form textarea {
+    border-radius: 4px;
+    border: solid 1px #dae0e7;
+    background-color: #ffffff;
+}

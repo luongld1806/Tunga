@@ -1,0 +1,70 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    ViewData["navBarMode"] = "navbar-normal";
+    Food food = ViewBag.Food;
+}
+
+<section class="ftco-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 mb-5 ftco-animate fadeInUp ftco-animated">
+                <a href="/images/@food.Image" class="image-popup"><img src="/images/@food.Image" class="img-fluid" alt="Colorlib Template"></a>
+            </div>
+            <form  method="post" asp-action="Create" asp-controller="Cart" class="col-lg-6 product-details pl-md-5 ftco-animate fadeInUp ftco-animated">
+                <h3>@food.Name</h3>
+                <p class="price"><span>$@food.Price</span></p>
+                <p>A small river named Duden flows by their place and supplies it with the necessary regelialia. It is a paradisematic country, in which roasted parts of sentences fly into your mouth.</p>
+                <p>
+                    On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their.
+                </p>
+                <div class="row mt-4">
+                    
+                    <div class="input-group col-md-6 d-flex mb-3">
+                        <span class="input-group-btn mr-2">
+                            <button type="button" class="quantity-left-minus btn" id="minus" data-type="minus" data-field="">
+                                <i class="icon-minus"></i>
+                            </button>
+                        </span>
+                        <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                        <span class="input-group-btn ml-2">
+                            <button type="button" class="quantity-right-plus btn" id="plus" data-type="plus" data-field="">
+                                <i class="icon-plus"></i>
+                            </button>
+                        </span>
+                        <input hidden value="@food.Id" name="foodId"/>
+                    </div>
+                </div>
+                <p><input type="submit" class="btn btn-primary py-3 px-5" value="Add to Cart"/></p>
+            </form>
+        </div>
+    </div>
+</section>
+<section class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-5 pb-3">
+            <div class="col-md-7 heading-section ftco-animate text-center fadeInUp ftco-animated">
+                <span class="subheading">Discover</span>
+                <h2 class="mb-4">Related products</h2>
+                <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+            </div>
+        </div>
+        <div class="row " style="justify-content: center">
+            @foreach (Food relate in ViewBag.RelateFood)
+           {
+                <div class="col-md-3">
+                    <div class="menu-entry">
+                        <a asp-action="Food" asp-controller="Home" asp-route-id="@relate.Id" class="img" style="background-image: url(/images/@relate.Image);"></a>
+                        <div class="text text-center pt-4">
+                            <h3><a asp-controller="Home" asp-action="Food" asp-route-id="@relate.Id">@relate.Name</a></h3>
+                            <p>A small river named Duden flows by their place and supplies</p>
+                            <p class="price"><span>$@relate.Price</span></p>
+                        </div>
+                    </div>
+                </div>
+               
+           }
+        </div>
+    </div>
+</section>

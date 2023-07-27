@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Identity
+<div class="col-12 grid-margin stretch-card">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Basic form elements</h4>
+            <p class="card-description"> Basic form elements </p>
+            <form class="forms-sample" method="post" asp-controller="Account" asp-action="Create">
+                <select class="form-control" name="Sex" id="exampleSelectGender">
+                    @{ int i = 0; }
+                    @foreach (var status in ViewBag.StatusList)
+                    {
+                        <option value="@i">@status</option>
+                        i++;
+                    }
+                </select>
+                <div class="form-group">
+                    <label for="DisplayName">Name</label>
+                    <input type="text" class="form-control" id="DisplayName" name="DisplayName" placeholder="Name">
+                </div>
+                <div class="form-group">
+                    <label for="Email">Email address</label>
+                    <input type="email" class="form-control" id="Email" name="Email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="Password">Password</label>
+                    <input type="text" class="form-control" name="Password" id="Password" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <label for="exampleSelectGender">Gender</label>
+                    <select class="form-control" name="Sex" id="exampleSelectGender">
+                        <option value="1">Male</option>
+                        <option value="2">Female</option>
+                        <option value="3">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="Phone">Phone number</label>
+                    <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Phone number">
+                </div>
+                <div class="form-group">
+                    <label for="Address">Address</label>
+                    <input type="text" class="form-control" id="Address" name="Address" placeholder="Location">
+                </div>
+                <div class="form-group">
+                    <label for="setRole">Select Role</label>
+                    <select class="form-control" id="setRole" name="RoleName">
+                        @foreach (IdentityRole role in ViewBag.Roles)
+                       {
+                            <option value="@role.Name">@role.Name</option>
+                       }
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                <button class="btn btn-light">Cancel</button>
+            </form>
+        </div>
+    </div>
+</div>

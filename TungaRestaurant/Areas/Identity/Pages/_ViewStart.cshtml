@@ -1,0 +1,13 @@
+﻿@inject UserManager<UserInfo> _userManager
+@using Microsoft.EntityFrameworkCore
+@using TungaRestaurant.Models
+@{
+    UserInfo userInfo = null;
+    if (User.Identity.Name != null)
+    {
+        string uid = _userManager.GetUserId(User);
+        userInfo = _userManager.Users.Include(u => u.Carts).Where(u => u.Id.Equals(uid)).FirstOrDefault();
+    }
+    ViewBag.UserInfo = userInfo;
+    Layout = "/Views/LoginLayout/_UserLayout.cshtml";
+}
